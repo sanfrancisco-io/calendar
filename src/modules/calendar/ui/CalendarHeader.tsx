@@ -1,0 +1,101 @@
+import { Burger, CalendarIcon, ChevronDown, ChevronLeft, ChevronRight, Settings } from '@/assets/icons'
+import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from '@/components/ui/dropdown-menu'
+import { Tooltip, TooltipContent, TooltipTrigger } from '@/components/ui/tooltip'
+import { useStore } from '@/store/store.ts'
+import { monthFormatter } from '@/modules/calendar/services'
+import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover'
+import { useState } from 'react'
+import { Button } from '@/components/ui/button'
+import { Calendar } from '@/components/ui/calendar'
+import { ChevronDownIcon } from 'lucide-react'
+
+export const CalendarHeader = () => {
+  const [open, setOpen] = useState(false)
+
+  const { prevMonth, nextMonth, currentMonth, setMonth, date } = useStore((state) => state)
+
+  const currentDate = new Date()
+
+  return (
+    <div className='px-2.5 flex justify-between items-center pt-3'>
+      <div className='flex justify-between items-center gap-8'>
+        <Burger className='cursor-pointer' />
+        <div className='flex justify-between items-center gap-3'>
+          <CalendarIcon />
+          <p className='text-[22px]'>Календарь</p>
+        </div>
+        <Tooltip>
+          <TooltipTrigger
+            className='border border-gray-500 px-5 py-2 rounded-full cursor-pointer'
+            onClick={currentMonth}
+          >
+            Сегодня
+          </TooltipTrigger>
+          <TooltipContent>
+            <p>{monthFormatter(date, { month: 'long', weekday: 'long' })}</p>
+          </TooltipContent>
+        </Tooltip>
+
+        <div className='flex justify-between gap-3'>
+          <Tooltip>
+            <TooltipTrigger className='cursor-pointer hover:bg-gray-200 rounded-full' onClick={prevMonth}>
+              <ChevronLeft />
+            </TooltipTrigger>
+            <TooltipContent>
+              <p>Предыдущий месяц</p>
+            </TooltipContent>
+          </Tooltip>
+          <Tooltip>
+            <TooltipTrigger className='cursor-pointer hover:bg-gray-200 rounded-full' onClick={nextMonth}>
+              <ChevronRight />
+            </TooltipTrigger>
+            <TooltipContent>
+              <p>Следующий месяц</p>
+            </TooltipContent>
+          </Tooltip>
+        </div>
+        <div className='flex flex-col gap-3'>
+          <Popover open={open} onOpenChange={setOpen}>
+            <PopoverTrigger asChild>
+              <Button
+                variant='ghost'
+                id='date-picker'
+                className='justify-between text-3xl font-light hover:bg-gray-200'
+              >
+                {monthFormatter(currentDate, { month: 'long', year: 'numeric' })}
+                <ChevronDownIcon />
+              </Button>
+            </PopoverTrigger>
+            <PopoverContent className='w-auto overflow-hidden p-0' align='start'>
+              <Calendar
+                mode='single'
+                selected={currentDate}
+                captionLayout='dropdown'
+                onSelect={(currentDate) => {
+                  if (!currentDate) return
+
+                  setMonth(currentDate)
+                  setOpen(false)
+                }}
+              />
+            </PopoverContent>
+          </Popover>
+        </div>
+      </div>
+      <div className='flex justify-between items-center gap-8'>
+        <Settings className='cursor-pointer' />
+        <DropdownMenu>
+          <DropdownMenuTrigger className='outline-0 flex justify-between items-center gap-3 px-5 py-2 rounded-full border border-gray-500'>
+            <p>Месяц</p>
+            <ChevronDown />
+          </DropdownMenuTrigger>
+          <DropdownMenuContent className='bg-[#EEF2F7]'>
+            <DropdownMenuItem>Profile</DropdownMenuItem>
+            <DropdownMenuItem>Billing</DropdownMenuItem>
+            <DropdownMenuItem>Team</DropdownMenuItem>
+          </DropdownMenuContent>
+        </DropdownMenu>
+      </div>
+    </div>
+  )
+}
