@@ -4,30 +4,30 @@ import { useStore } from '@/store/store.ts';
 const FIRST_DAY_OF_MONTH = 1;
 
 export const Calendar = () => {
-  const currentDate = useStore(state => state.date);
+  const selectedDate = useStore(state => state.date);
 
-  const currentMonthIndex = currentDate.getMonth();
-  const currentYear = currentDate.getFullYear();
+  const selectedMonthIndex = selectedDate.getMonth();
+  const selectedYear = selectedDate.getFullYear();
 
-  const currentMonthLastDay = new Date(currentYear, currentMonthIndex + 1, 0).getDay();
-  const currentMonthStartWeekday = new Date(currentYear, currentMonthIndex, 1).getDay();
+  const lastWeekdayOfSelectedMonth = new Date(selectedYear, selectedMonthIndex + 1, 0).getDay();
+  const firstWeekdayOfSelectedMonth = new Date(selectedYear, selectedMonthIndex, 1).getDay();
 
-  const daysInPreviousMonth = getDaysInMonth(currentYear, currentMonthIndex);
-  const daysInCurrentMonth = getDaysInMonth(currentYear, currentMonthIndex + 1);
+  const daysInPreviousMonth = getDaysInMonth(selectedYear, selectedMonthIndex);
+  const daysInCurrentMonth = getDaysInMonth(selectedYear, selectedMonthIndex + 1);
 
-  let previousMonthStartDay = daysInPreviousMonth - currentMonthStartWeekday + 1;
+  let prevMonthFillerStartDate = daysInPreviousMonth - firstWeekdayOfSelectedMonth + 1;
 
-  const previousMonthSpilloverDates = Array.from({ length: currentMonthStartWeekday }, () => {
-    return new Date(currentYear, currentMonthIndex - 1, previousMonthStartDay++);
+  const prevMonthFillerDates = Array.from({ length: firstWeekdayOfSelectedMonth }, () => {
+    return new Date(selectedYear, selectedMonthIndex - 1, prevMonthFillerStartDate++);
   });
 
   const currentMonthDates = Array.from({ length: daysInCurrentMonth }, (_, index) => {
-    return new Date(currentYear, currentMonthIndex, index + 1);
+    return new Date(selectedYear, selectedMonthIndex, index + 1);
   });
 
-  const trailingDaysNeeded = currentMonthLastDay < 6 ? 6 - currentMonthLastDay : 0;
-  const nextMonthSpilloverDates = Array.from({ length: trailingDaysNeeded }, (_, index) => {
-    return new Date(currentYear, currentMonthIndex + 1, index + 1);
+  const nextMonthFillerCount = lastWeekdayOfSelectedMonth < 6 ? 6 - lastWeekdayOfSelectedMonth : 0;
+  const nextMonthFillerDates = Array.from({ length: nextMonthFillerCount }, (_, index) => {
+    return new Date(selectedYear, selectedMonthIndex + 1, index + 1);
   });
 
   return (
@@ -42,10 +42,10 @@ export const Calendar = () => {
       <div
         className={`grid rounded-3xl border-[#DDE3EA] border overflow-hidden grid-cols-7 h-full`}
         style={{
-          gridTemplateRows: `repeat(${Math.ceil((previousMonthSpilloverDates.length + currentMonthDates.length) / 7)}, minmax(0, 1fr))`,
+          gridTemplateRows: `repeat(${Math.ceil((prevMonthFillerDates.length + currentMonthDates.length) / 7)}, minmax(0, 1fr))`,
         }}
       >
-        {[...previousMonthSpilloverDates, ...currentMonthDates, ...nextMonthSpilloverDates].map(item => (
+        {[...prevMonthFillerDates, ...currentMonthDates, ...nextMonthFillerDates].map(item => (
           <div
             key={item.getTime()}
             onClick={() => console.log(item)}

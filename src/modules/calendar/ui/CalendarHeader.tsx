@@ -1,7 +1,5 @@
 import { useState } from 'react';
-
 import { ChevronDownIcon } from 'lucide-react';
-
 import { Burger, CalendarIcon, ChevronDown, ChevronLeft, ChevronRight, Settings } from '@/assets/icons';
 import { Button } from '@/components/ui/button';
 import { Calendar } from '@/components/ui/calendar';
