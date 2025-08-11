@@ -1,18 +1,20 @@
+import { useState } from 'react';
+
+import { ChevronDownIcon } from 'lucide-react';
+
 import { Burger, CalendarIcon, ChevronDown, ChevronLeft, ChevronRight, Settings } from '@/assets/icons';
+import { Button } from '@/components/ui/button';
+import { Calendar } from '@/components/ui/calendar';
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
-import { Tooltip, TooltipContent, TooltipTrigger } from '@/components/ui/tooltip';
-import { useStore } from '@/store/store.ts';
-import { monthFormatter } from '@/modules/calendar/services';
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
-import { useState } from 'react';
-import { Button } from '@/components/ui/button';
-import { Calendar } from '@/components/ui/calendar';
-import { ChevronDownIcon } from 'lucide-react';
+import { Tooltip, TooltipContent, TooltipTrigger } from '@/components/ui/tooltip';
+import { monthFormatter } from '@/modules/calendar/services';
+import { useStore } from '@/store/store.ts';
 
 export const CalendarHeader = () => {
   const [open, setOpen] = useState(false);
