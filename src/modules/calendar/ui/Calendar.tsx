@@ -26,12 +26,10 @@ export const Calendar = () => {
     return new Date(currentYear, currentMonthIndex, index + 1)
   })
 
-  const nextMonthSpilloverDates = Array.from(
-    { length: nextMonthStartWeekday > 0 ? DAYS_IN_WEEK - nextMonthStartWeekday : 0 },
-    (_, index) => {
-      return new Date(currentYear, currentMonthIndex + 1, index + 1)
-    },
-  )
+  const trailingDaysNeeded = currentMonthLastDay < 6 ? 6 - currentMonthLastDay : 0
+  const nextMonthSpilloverDates = Array.from({ length: trailingDaysNeeded }, (_, index) => {
+    return new Date(currentYear, currentMonthIndex + 1, index + 1)
+  })
 
   return (
     <div className='px-2 pb-5 h-[calc(100vh-5rem)]'>
