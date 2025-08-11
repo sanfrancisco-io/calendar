@@ -2,7 +2,6 @@ import { getDaysInMonth, monthFormatter, week } from '@/modules/calendar/service
 import { useStore } from '@/store/store.ts'
 
 const FIRST_DAY_OF_MONTH = 1
-const DAYS_IN_WEEK = 7
 
 export const Calendar = () => {
   const currentDate = useStore((state) => state.date)
@@ -10,16 +9,16 @@ export const Calendar = () => {
   const currentMonthIndex = currentDate.getMonth()
   const currentYear = currentDate.getFullYear()
 
-  const nextMonthStartWeekday = new Date(currentYear, currentMonthIndex + 1, 1).getDay()
+  const currentMonthLastDay = new Date(currentYear, currentMonthIndex + 1, 0).getDay()
   const currentMonthStartWeekday = new Date(currentYear, currentMonthIndex, 1).getDay()
 
   const daysInPreviousMonth = getDaysInMonth(currentYear, currentMonthIndex)
   const daysInCurrentMonth = getDaysInMonth(currentYear, currentMonthIndex + 1)
 
-  let previousMonthStartDayNumber = daysInPreviousMonth - currentMonthStartWeekday + 1
+  let previousMonthStartDay = daysInPreviousMonth - currentMonthStartWeekday + 1
 
   const previousMonthSpilloverDates = Array.from({ length: currentMonthStartWeekday }, () => {
-    return new Date(currentYear, currentMonthIndex - 1, previousMonthStartDayNumber++)
+    return new Date(currentYear, currentMonthIndex - 1, previousMonthStartDay++)
   })
 
   const currentMonthDates = Array.from({ length: daysInCurrentMonth }, (_, index) => {

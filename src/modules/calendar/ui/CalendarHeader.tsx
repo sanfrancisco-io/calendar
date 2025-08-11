@@ -14,8 +14,6 @@ export const CalendarHeader = () => {
 
   const { prevMonth, nextMonth, currentMonth, setMonth, date } = useStore((state) => state)
 
-  const currentDate = new Date()
-
   return (
     <div className='px-2.5 flex justify-between items-center pt-3'>
       <div className='flex justify-between items-center gap-8'>
@@ -62,19 +60,19 @@ export const CalendarHeader = () => {
                 id='date-picker'
                 className='justify-between text-3xl font-light hover:bg-gray-200'
               >
-                {monthFormatter(currentDate, { month: 'long', year: 'numeric' })}
+                {monthFormatter(date, { month: 'long', year: 'numeric' }).substring(2)}
                 <ChevronDownIcon />
               </Button>
             </PopoverTrigger>
             <PopoverContent className='w-auto overflow-hidden p-0' align='start'>
               <Calendar
                 mode='single'
-                selected={currentDate}
+                selected={date}
                 captionLayout='dropdown'
-                onSelect={(currentDate) => {
-                  if (!currentDate) return
+                onSelect={(date) => {
+                  if (!date) return
 
-                  setMonth(currentDate)
+                  setMonth(date)
                   setOpen(false)
                 }}
               />
