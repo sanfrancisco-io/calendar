@@ -1,7 +1,7 @@
-import { type SVGProps } from 'react'
-import * as React from 'react'
+import { type SVGProps } from 'react';
+import * as React from 'react';
 
-type IconProps = SVGProps<SVGElement>
+type IconProps = SVGProps<SVGElement>;
 
 export const Settings: React.FC<IconProps> = ({ className }) => {
   return (
@@ -20,5 +20,5 @@ export const Settings: React.FC<IconProps> = ({ className }) => {
       />
       <path strokeLinecap='round' strokeLinejoin='round' d='M15 12a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z' />
     </svg>
-  )
-}
+  );
+};

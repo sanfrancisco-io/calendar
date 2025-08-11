@@ -1,27 +1,35 @@
-import { Burger, CalendarIcon, ChevronDown, ChevronLeft, ChevronRight, Settings } from '@/assets/icons'
-import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from '@/components/ui/dropdown-menu'
-import { Tooltip, TooltipContent, TooltipTrigger } from '@/components/ui/tooltip'
-import { useStore } from '@/store/store.ts'
-import { monthFormatter } from '@/modules/calendar/services'
-import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover'
-import { useState } from 'react'
-import { Button } from '@/components/ui/button'
-import { Calendar } from '@/components/ui/calendar'
-import { ChevronDownIcon } from 'lucide-react'
+import { Burger, CalendarIcon, ChevronDown, ChevronLeft, ChevronRight, Settings } from '@/assets/icons';
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from '@/components/ui/dropdown-menu';
+import { Tooltip, TooltipContent, TooltipTrigger } from '@/components/ui/tooltip';
+import { useStore } from '@/store/store.ts';
+import { monthFormatter } from '@/modules/calendar/services';
+import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
+import { useState } from 'react';
+import { Button } from '@/components/ui/button';
+import { Calendar } from '@/components/ui/calendar';
+import { ChevronDownIcon } from 'lucide-react';
 
 export const CalendarHeader = () => {
-  const [open, setOpen] = useState(false)
+  const [open, setOpen] = useState(false);
 
-  const { prevMonth, nextMonth, currentMonth, setMonth, date } = useStore((state) => state)
-
+  const { prevMonth, nextMonth, currentMonth, setMonth, date } = useStore(state => state);
   return (
     <div className='px-2.5 flex justify-between items-center pt-3'>
       <div className='flex justify-between items-center gap-8'>
         <Burger className='cursor-pointer' />
+
+        {/*LOGO*/}
         <div className='flex justify-between items-center gap-3'>
           <CalendarIcon />
           <p className='text-[22px]'>Календарь</p>
         </div>
+
+        {/*TODAY BUTTON*/}
         <Tooltip>
           <TooltipTrigger
             className='border border-gray-500 px-5 py-2 rounded-full cursor-pointer'
@@ -34,6 +42,7 @@ export const CalendarHeader = () => {
           </TooltipContent>
         </Tooltip>
 
+        {/*CHEVRON BUTTONS*/}
         <div className='flex justify-between gap-3'>
           <Tooltip>
             <TooltipTrigger className='cursor-pointer hover:bg-gray-200 rounded-full' onClick={prevMonth}>
@@ -52,6 +61,8 @@ export const CalendarHeader = () => {
             </TooltipContent>
           </Tooltip>
         </div>
+
+        {/*DATE PICKER*/}
         <div className='flex flex-col gap-3'>
           <Popover open={open} onOpenChange={setOpen}>
             <PopoverTrigger asChild>
@@ -60,7 +71,10 @@ export const CalendarHeader = () => {
                 id='date-picker'
                 className='justify-between text-3xl font-light hover:bg-gray-200'
               >
-                {monthFormatter(date, { month: 'long', year: 'numeric' }).substring(2)}
+                {monthFormatter(date, {
+                  month: 'long',
+                  year: 'numeric',
+                }).substring(2)}
                 <ChevronDownIcon />
               </Button>
             </PopoverTrigger>
@@ -68,12 +82,11 @@ export const CalendarHeader = () => {
               <Calendar
                 mode='single'
                 selected={date}
-                captionLayout='dropdown'
-                onSelect={(date) => {
-                  if (!date) return
+                onSelect={date => {
+                  if (!date) return;
 
-                  setMonth(date)
-                  setOpen(false)
+                  setMonth(date);
+                  setOpen(false);
                 }}
               />
             </PopoverContent>
@@ -95,5 +108,5 @@ export const CalendarHeader = () => {
         </DropdownMenu>
       </div>
     </div>
-  )
-}
+  );
+};

@@ -1,6 +1,6 @@
-import type { SVGProps } from 'react'
+import type { SVGProps } from 'react';
 
-type IconProps = SVGProps<SVGElement>
+type IconProps = SVGProps<SVGElement>;
 
 export const ChevronDown: React.FC<IconProps> = ({ className }) => {
   return (
@@ -14,5 +14,5 @@ export const ChevronDown: React.FC<IconProps> = ({ className }) => {
     >
       <path strokeLinecap='round' strokeLinejoin='round' d='m19.5 8.25-7.5 7.5-7.5-7.5' />
     </svg>
-  )
-}
+  );
+};

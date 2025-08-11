@@ -1,7 +1,7 @@
-import { type SVGProps } from 'react'
-import * as React from 'react'
+import { type SVGProps } from 'react';
+import * as React from 'react';
 
-type IconProps = SVGProps<SVGElement>
+type IconProps = SVGProps<SVGElement>;
 
 export const Burger: React.FC<IconProps> = ({ className }) => {
   return (
@@ -15,5 +15,5 @@ export const Burger: React.FC<IconProps> = ({ className }) => {
     >
       <path strokeLinecap='round' strokeLinejoin='round' d='M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5' />
     </svg>
-  )
-}
+  );
+};

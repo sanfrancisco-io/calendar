@@ -1,4 +1,4 @@
-import { Calendar, CalendarHeader } from '@/modules/calendar/ui'
+import { Calendar, CalendarHeader } from '@/modules/calendar/ui';
 
 function App() {
   return (
@@ -6,7 +6,7 @@ function App() {
       <CalendarHeader />
       <Calendar />
     </>
-  )
+  );
 }
 
-export default App
+export default App;

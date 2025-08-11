@@ -1,2 +1,2 @@
-export { Calendar } from './Calendar.tsx'
-export { CalendarHeader } from './CalendarHeader.tsx'
+export { Calendar } from './Calendar.tsx';
+export { CalendarHeader } from './CalendarHeader.tsx';
