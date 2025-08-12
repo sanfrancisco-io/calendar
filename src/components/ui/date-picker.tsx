@@ -5,7 +5,7 @@ import { ChevronDownIcon, ChevronLeftIcon, ChevronRightIcon } from 'lucide-react
 import { Button, buttonVariants } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
 
-function Calendar({
+function DatePicker({
   className,
   classNames,
   showOutsideDays = true,
@@ -109,7 +109,7 @@ function Calendar({
 
           return <ChevronDownIcon className={cn('size-4', className)} {...props} />;
         },
-        DayButton: CalendarDayButton,
+        DayButton: DatePickerButton,
         WeekNumber: ({ children, ...props }) => {
           return (
             <td {...props}>
@@ -124,7 +124,7 @@ function Calendar({
   );
 }
 
-function CalendarDayButton({ className, day, modifiers, ...props }: React.ComponentProps<typeof DayButton>) {
+function DatePickerButton({ className, day, modifiers, ...props }: React.ComponentProps<typeof DayButton>) {
   const defaultClassNames = getDefaultClassNames();
 
   const ref = React.useRef<HTMLButtonElement>(null);
@@ -154,4 +154,4 @@ function CalendarDayButton({ className, day, modifiers, ...props }: React.Compon
   );
 }
 
-export { Calendar, CalendarDayButton };
+export { DatePicker, DatePickerButton };

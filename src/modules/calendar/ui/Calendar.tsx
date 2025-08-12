@@ -1,4 +1,5 @@
-import { getDaysInMonth, monthFormatter, week } from '@/modules/calendar/services';
+import { getDaysInMonth, monthFormatter } from '@/modules/calendar/services';
+import { week } from '@/modules/calendar/services/calendar-constants.ts';
 import { useStore } from '@/store/store.ts';
 
 const FIRST_DAY_OF_MONTH = 1;

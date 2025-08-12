@@ -1,12 +1,8 @@
-import { Calendar, CalendarHeader } from '@/modules/calendar/ui';
+import { RouterProvider } from 'react-router/dom';
+import { router } from '@/config/router';
 
 function App() {
-  return (
-    <>
-      <CalendarHeader />
-      <Calendar />
-    </>
-  );
+  return <RouterProvider router={router} />;
 }
 
 export default App;

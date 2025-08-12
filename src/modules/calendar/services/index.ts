@@ -1,5 +1,3 @@
-export const week = ['ВС', 'ПН', 'ВТ', 'СР', 'ЧТ', 'ПТ', 'СБ'];
-
 export const getDaysInMonth = (year: number, month: number) => {
   return new Date(year, month, 0).getDate();
 };

@@ -1,8 +1,9 @@
 import { useState } from 'react';
+import { Link } from 'react-router';
 import { ChevronDownIcon } from 'lucide-react';
-import { Burger, CalendarIcon, ChevronDown, ChevronLeft, ChevronRight, Settings } from '@/assets/icons';
+import { CalendarIcon, ChevronDown, ChevronLeft, ChevronRight, Settings } from '@/assets/icons';
 import { Button } from '@/components/ui/button';
-import { Calendar } from '@/components/ui/calendar';
+import { DatePicker } from '@/components/ui/date-picker.tsx';
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -12,6 +13,7 @@ import {
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
 import { Tooltip, TooltipContent, TooltipTrigger } from '@/components/ui/tooltip';
 import { monthFormatter } from '@/modules/calendar/services';
+import { calendarTypes } from '@/modules/calendar/services/calendar-constants.ts';
 import { useStore } from '@/store/store.ts';
 
 export const CalendarHeader = () => {
@@ -21,7 +23,7 @@ export const CalendarHeader = () => {
   return (
     <div className='px-2.5 flex justify-between items-center pt-3'>
       <div className='flex justify-between items-center gap-8'>
-        <Burger className='cursor-pointer' />
+        {/*<Burger className='cursor-pointer' />*/}
 
         {/*LOGO*/}
         <div className='flex justify-between items-center gap-3'>
@@ -79,7 +81,7 @@ export const CalendarHeader = () => {
               </Button>
             </PopoverTrigger>
             <PopoverContent className='w-auto overflow-hidden p-0' align='start'>
-              <Calendar
+              <DatePicker
                 mode='single'
                 selected={date}
                 onSelect={date => {
@@ -100,10 +102,12 @@ export const CalendarHeader = () => {
             <p>Месяц</p>
             <ChevronDown />
           </DropdownMenuTrigger>
-          <DropdownMenuContent className='bg-[#EEF2F7]'>
-            <DropdownMenuItem>Profile</DropdownMenuItem>
-            <DropdownMenuItem>Billing</DropdownMenuItem>
-            <DropdownMenuItem>Team</DropdownMenuItem>
+          <DropdownMenuContent className='bg-[#EEF2F7] mr-2'>
+            {calendarTypes.map(item => (
+              <Link key={item.label} to={item.path}>
+                <DropdownMenuItem className='w-[200px]'>{item.label}</DropdownMenuItem>
+              </Link>
+            ))}
           </DropdownMenuContent>
         </DropdownMenu>
       </div>
