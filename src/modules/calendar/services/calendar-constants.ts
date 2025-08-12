@@ -10,3 +10,7 @@ export const calendarTypes = [
   { label: 'Неделя', path: appRoutes.week },
   { label: 'День', path: appRoutes.day },
 ];
+
+const date = new Date();
+
+export const CURRENT_DATE = new Date(date.getFullYear(), date.getMonth(), date.getDate()).getTime();

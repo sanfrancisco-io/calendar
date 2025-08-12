@@ -1,6 +1,6 @@
 import { createBrowserRouter } from 'react-router';
 import { appRoutes } from '@/config/router/appRoutes.ts';
-import { CalendarMonth, CalendarPage, NotFoundPage } from '@/modules/scenarios-constructor/ui';
+import { CalendarMonth, CalendarPage, CalendarYearPage, NotFoundPage } from '@/modules/scenarios-constructor/ui';
 
 export const router = createBrowserRouter([
   {
@@ -10,7 +10,7 @@ export const router = createBrowserRouter([
     children: [
       {
         path: appRoutes.year,
-        element: <div>coming soon</div>,
+        element: <CalendarYearPage />,
         errorElement: <NotFoundPage />,
       },
       {

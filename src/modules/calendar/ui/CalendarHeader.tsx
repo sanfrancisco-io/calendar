@@ -18,10 +18,12 @@ import { useStore } from '@/store/store.ts';
 
 export const CalendarHeader = () => {
   const [open, setOpen] = useState(false);
+  const [selectedCalendar, setSelectedCalendar] = useState(calendarTypes[0]);
 
   const { prevMonth, nextMonth, currentMonth, setMonth, date } = useStore(state => state);
+
   return (
-    <div className='px-2.5 flex justify-between items-center pt-3'>
+    <div className='px-2.5 flex justify-between items-center pt-3 mb-3'>
       <div className='flex justify-between items-center gap-8'>
         {/*<Burger className='cursor-pointer' />*/}
 
@@ -86,7 +88,6 @@ export const CalendarHeader = () => {
                 selected={date}
                 onSelect={date => {
                   if (!date) return;
-
                   setMonth(date);
                   setOpen(false);
                 }}
@@ -99,13 +100,15 @@ export const CalendarHeader = () => {
         <Settings className='cursor-pointer' />
         <DropdownMenu>
           <DropdownMenuTrigger className='outline-0 flex justify-between items-center gap-3 px-5 py-2 rounded-full border border-gray-500'>
-            <p>Месяц</p>
+            <p>{selectedCalendar.label}</p>
             <ChevronDown />
           </DropdownMenuTrigger>
           <DropdownMenuContent className='bg-[#EEF2F7] mr-2'>
             {calendarTypes.map(item => (
               <Link key={item.label} to={item.path}>
-                <DropdownMenuItem className='w-[200px]'>{item.label}</DropdownMenuItem>
+                <DropdownMenuItem className='w-[200px]' onClick={() => setSelectedCalendar(item)}>
+                  {item.label}
+                </DropdownMenuItem>
               </Link>
             ))}
           </DropdownMenuContent>

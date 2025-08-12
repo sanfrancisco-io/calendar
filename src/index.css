@@ -142,3 +142,10 @@ body {
 .rdp-weekday {
   text-transform: capitalize;
 }
+
+.rdp-week {
+  gap: 10px
+}
+.rdp-day {
+  font-size: 12px;
+}

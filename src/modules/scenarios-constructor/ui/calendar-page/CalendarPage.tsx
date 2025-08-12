@@ -5,7 +5,9 @@ export const CalendarPage = () => {
   return (
     <>
       <CalendarHeader />
-      <Outlet />
+      <div className='px-2 pb-5 h-[calc(100vh-5rem)]'>
+        <Outlet />
+      </div>
     </>
   );
 };
