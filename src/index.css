@@ -149,3 +149,63 @@ body {
 .rdp-day {
   font-size: 12px;
 }
+
+.react-calendar {
+  border: none !important;
+  font-size: 12px;
+}
+
+.react-calendar__tile--active {
+  background: none;
+  color: inherit;
+}
+
+.react-calendar__month-view__days__day--weekend {
+  color: inherit;
+}
+
+.react-calendar__month-view__weekdays__weekday abbr {
+  text-decoration: unset;
+}
+
+.react-calendar__month-view__weekdays {
+  font-weight: normal;
+}
+
+.react-calendar__tile--now {
+  background: inherit;
+}
+
+
+.react-calendar__tile--now abbr {
+  background: dodgerblue;
+  padding: 10px;
+  border-radius: 50%;
+}
+
+.react-calendar__tile:enabled:hover, .react-calendar__tile:enabled:focus {
+  background: unset;
+}
+
+.react-calendar__tile:enabled:focus abbr {
+  background: #e6e6e6;
+  padding: 10px;
+  border-radius: 50%;
+}
+
+.react-calendar__tile--hasActive:enabled:hover,
+.react-calendar__tile--hasActive:enabled:focus {
+  background: #a9d4ff;
+  padding: 5px;
+}
+
+
+.react-calendar__tile--now:enabled:hover,
+.react-calendar__tile--now:enabled:focus {
+  background: inherit;
+}
+
+.react-calendar__year-view .react-calendar__tile,
+.react-calendar__decade-view .react-calendar__tile,
+.react-calendar__century-view .react-calendar__tile {
+}

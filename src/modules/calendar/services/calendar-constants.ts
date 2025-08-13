@@ -14,3 +14,5 @@ export const calendarTypes = [
 const date = new Date();
 
 export const CURRENT_DATE = new Date(date.getFullYear(), date.getMonth(), date.getDate()).getTime();
+
+export const FIRST_DAY_OF_MONTH = 1;

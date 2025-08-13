@@ -1,12 +1,10 @@
 import { cn } from '@/lib/utils.ts';
 import { getDaysInMonth, monthFormatter } from '@/modules/calendar/services';
-import { CURRENT_DATE, week } from '@/modules/calendar/services/calendar-constants.ts';
-import { useStore } from '@/store/store.ts';
-
-const FIRST_DAY_OF_MONTH = 1;
+import { CURRENT_DATE, FIRST_DAY_OF_MONTH, week } from '@/modules/calendar/services/calendar-constants.ts';
+import { bearStore } from '@/store/store.ts';
 
 export const Calendar = () => {
-  const selectedDate = useStore(state => state.date);
+  const selectedDate = bearStore(state => state.date);
 
   const selectedMonthIndex = selectedDate.getMonth();
   const selectedYear = selectedDate.getFullYear();
@@ -18,7 +16,6 @@ export const Calendar = () => {
   const daysInCurrentMonth = getDaysInMonth(selectedYear, selectedMonthIndex + 1);
 
   let prevMonthFillerStartDate = daysInPreviousMonth - firstWeekdayOfSelectedMonth + 1;
-
   const prevMonthFillerDates = Array.from({ length: firstWeekdayOfSelectedMonth }, () => {
     return new Date(selectedYear, selectedMonthIndex - 1, prevMonthFillerStartDate++);
   });
@@ -50,7 +47,6 @@ export const Calendar = () => {
         {[...prevMonthFillerDates, ...currentMonthDates, ...nextMonthFillerDates].map(item => (
           <div
             key={item.getTime()}
-            onClick={() => console.log(item.getTime())}
             className='flex justify-center items-start bg-white border cursor-pointer hover:bg-[#F2F2F2]'
           >
             <span
@@ -59,7 +55,7 @@ export const Calendar = () => {
                   item.getTime() === CURRENT_DATE,
               })}
             >
-              {item.getDate() === FIRST_DAY_OF_MONTH ? `${monthFormatter(item)}` : item.getDate()}
+              {item.getDate() === FIRST_DAY_OF_MONTH ? monthFormatter(item) : item.getDate()}
             </span>
           </div>
         ))}

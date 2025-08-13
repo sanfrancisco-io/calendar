@@ -12,16 +12,22 @@ import {
 } from '@/components/ui/dropdown-menu';
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
 import { Tooltip, TooltipContent, TooltipTrigger } from '@/components/ui/tooltip';
-import { monthFormatter } from '@/modules/calendar/services';
+import { appRoutes } from '@/config/router/appRoutes.ts';
+import { getControllerType, monthFormatter } from '@/modules/calendar/services';
 import { calendarTypes } from '@/modules/calendar/services/calendar-constants.ts';
-import { useStore } from '@/store/store.ts';
+import { bearStore } from '@/store/store.ts';
 
 export const CalendarHeader = () => {
   const [open, setOpen] = useState(false);
-  const [selectedCalendar, setSelectedCalendar] = useState(calendarTypes[0]);
+  const [openCalendarType, setOpenCalendarType] = useState(false);
 
-  const { prevMonth, nextMonth, currentMonth, setMonth, date } = useStore(state => state);
+  const { prevMonth, nextMonth, setMonth, prevYear, nextYear, date, calendarType, setCalendarType } = bearStore(
+    state => state
+  );
 
+  const controllerType = getControllerType(calendarType.path);
+
+  const calendarFormatter = monthFormatter(date, controllerType.config as Intl.DateTimeFormatOptions).substring(2);
   return (
     <div className='px-2.5 flex justify-between items-center pt-3 mb-3'>
       <div className='flex justify-between items-center gap-8'>
@@ -37,7 +43,7 @@ export const CalendarHeader = () => {
         <Tooltip>
           <TooltipTrigger
             className='border border-gray-500 px-5 py-2 rounded-full cursor-pointer'
-            onClick={currentMonth}
+            onClick={() => setMonth(new Date())}
           >
             Сегодня
           </TooltipTrigger>
@@ -49,19 +55,25 @@ export const CalendarHeader = () => {
         {/*CHEVRON BUTTONS*/}
         <div className='flex justify-between gap-3'>
           <Tooltip>
-            <TooltipTrigger className='cursor-pointer hover:bg-gray-200 rounded-full' onClick={prevMonth}>
+            <TooltipTrigger
+              className='cursor-pointer hover:bg-gray-200 rounded-full'
+              onClick={calendarType.path === appRoutes.month ? prevMonth : prevYear}
+            >
               <ChevronLeft />
             </TooltipTrigger>
             <TooltipContent>
-              <p>Предыдущий месяц</p>
+              <p>{controllerType.prevLabel}</p>
             </TooltipContent>
           </Tooltip>
           <Tooltip>
-            <TooltipTrigger className='cursor-pointer hover:bg-gray-200 rounded-full' onClick={nextMonth}>
+            <TooltipTrigger
+              className='cursor-pointer hover:bg-gray-200 rounded-full'
+              onClick={calendarType.path === appRoutes.month ? nextMonth : nextYear}
+            >
               <ChevronRight />
             </TooltipTrigger>
             <TooltipContent>
-              <p>Следующий месяц</p>
+              <p>{controllerType.nextLabel}</p>
             </TooltipContent>
           </Tooltip>
         </div>
@@ -75,10 +87,7 @@ export const CalendarHeader = () => {
                 id='date-picker'
                 className='justify-between text-3xl font-light hover:bg-gray-200'
               >
-                {monthFormatter(date, {
-                  month: 'long',
-                  year: 'numeric',
-                }).substring(2)}
+                {calendarFormatter}
                 <ChevronDownIcon />
               </Button>
             </PopoverTrigger>
@@ -98,15 +107,20 @@ export const CalendarHeader = () => {
       </div>
       <div className='flex justify-between items-center gap-8'>
         <Settings className='cursor-pointer' />
-        <DropdownMenu>
+        <DropdownMenu open={openCalendarType} onOpenChange={setOpenCalendarType}>
           <DropdownMenuTrigger className='outline-0 flex justify-between items-center gap-3 px-5 py-2 rounded-full border border-gray-500'>
-            <p>{selectedCalendar.label}</p>
+            <p>{calendarType.label}</p>
             <ChevronDown />
           </DropdownMenuTrigger>
-          <DropdownMenuContent className='bg-[#EEF2F7] mr-2'>
+          <DropdownMenuContent hidden={!openCalendarType} className='bg-[#EEF2F7] mr-2'>
             {calendarTypes.map(item => (
               <Link key={item.label} to={item.path}>
-                <DropdownMenuItem className='w-[200px]' onClick={() => setSelectedCalendar(item)}>
+                <DropdownMenuItem
+                  className='w-[200px]'
+                  onClick={() => {
+                    setCalendarType(item);
+                  }}
+                >
                   {item.label}
                 </DropdownMenuItem>
               </Link>
