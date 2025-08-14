@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Link } from 'react-router';
+import { Link, useLocation } from 'react-router';
 import { ChevronDownIcon } from 'lucide-react';
 import { CalendarIcon, ChevronDown, ChevronLeft, ChevronRight, Settings } from '@/assets/icons';
 import { Button } from '@/components/ui/button';
@@ -8,7 +8,7 @@ import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
-  DropdownMenuTrigger,
+  DropdownMenuTrigger
 } from '@/components/ui/dropdown-menu';
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
 import { Tooltip, TooltipContent, TooltipTrigger } from '@/components/ui/tooltip';
@@ -19,15 +19,61 @@ import { bearStore } from '@/store/store.ts';
 
 export const CalendarHeader = () => {
   const [open, setOpen] = useState(false);
-  const [openCalendarType, setOpenCalendarType] = useState(false);
 
-  const { prevMonth, nextMonth, setMonth, prevYear, nextYear, date, calendarType, setCalendarType } = bearStore(
-    state => state
-  );
+  const { setMonth, date, nextMonth, nextYear, prevYear, prevMonth } = bearStore(state => state);
 
-  const controllerType = getControllerType(calendarType.path);
+  const location = useLocation();
 
-  const calendarFormatter = monthFormatter(date, controllerType.config as Intl.DateTimeFormatOptions).substring(2);
+  const controllerType = getControllerType()[location.pathname];
+
+  const calendarFormatter = monthFormatter(date, controllerType.config as Intl.DateTimeFormatOptions).formatted;
+
+  const currentNextButtonAction = (path: string) => {
+    let action = null;
+
+    switch (path) {
+      case appRoutes.month:
+        action = nextMonth;
+        break;
+      case appRoutes.year:
+        action = nextYear;
+        break;
+      case appRoutes.week:
+        action = () => {};
+        break;
+      case appRoutes.day:
+        action = () => {};
+        break;
+      default:
+        action = () => {};
+    }
+
+    return action;
+  };
+
+  const currentPrevButtonAction = (path: string) => {
+    let action = null;
+
+    switch (path) {
+      case appRoutes.month:
+        action = prevMonth;
+        break;
+      case appRoutes.year:
+        action = prevYear;
+        break;
+      case appRoutes.week:
+        action = () => {};
+        break;
+      case appRoutes.day:
+        action = () => {};
+        break;
+      default:
+        action = () => {};
+    }
+
+    return action;
+  };
+
   return (
     <div className='px-2.5 flex justify-between items-center pt-3 mb-3'>
       <div className='flex justify-between items-center gap-8'>
@@ -48,7 +94,7 @@ export const CalendarHeader = () => {
             Сегодня
           </TooltipTrigger>
           <TooltipContent>
-            <p>{monthFormatter(date, { month: 'long', weekday: 'long' })}</p>
+            <p>{monthFormatter(date, { month: 'long', weekday: 'long' }).formatted}</p>
           </TooltipContent>
         </Tooltip>
 
@@ -57,23 +103,23 @@ export const CalendarHeader = () => {
           <Tooltip>
             <TooltipTrigger
               className='cursor-pointer hover:bg-gray-200 rounded-full'
-              onClick={calendarType.path === appRoutes.month ? prevMonth : prevYear}
+              onClick={currentPrevButtonAction(location.pathname)}
             >
               <ChevronLeft />
             </TooltipTrigger>
             <TooltipContent>
-              <p>{controllerType.prevLabel}</p>
+              <p>{controllerType.prevBtnLabel}</p>
             </TooltipContent>
           </Tooltip>
           <Tooltip>
             <TooltipTrigger
               className='cursor-pointer hover:bg-gray-200 rounded-full'
-              onClick={calendarType.path === appRoutes.month ? nextMonth : nextYear}
+              onClick={currentNextButtonAction(location.pathname)}
             >
               <ChevronRight />
             </TooltipTrigger>
             <TooltipContent>
-              <p>{controllerType.nextLabel}</p>
+              <p>{controllerType.nextBtnLabel}</p>
             </TooltipContent>
           </Tooltip>
         </div>
@@ -107,22 +153,15 @@ export const CalendarHeader = () => {
       </div>
       <div className='flex justify-between items-center gap-8'>
         <Settings className='cursor-pointer' />
-        <DropdownMenu open={openCalendarType} onOpenChange={setOpenCalendarType}>
-          <DropdownMenuTrigger className='outline-0 flex justify-between items-center gap-3 px-5 py-2 rounded-full border border-gray-500'>
-            <p>{calendarType.label}</p>
+        <DropdownMenu>
+          <DropdownMenuTrigger className=' cursor-pointer outline-0 flex justify-between items-center gap-3 px-5 py-2 rounded-full border border-gray-500'>
+            <p>{controllerType.currentCalendarType}</p>
             <ChevronDown />
           </DropdownMenuTrigger>
-          <DropdownMenuContent hidden={!openCalendarType} className='bg-[#EEF2F7] mr-2'>
+          <DropdownMenuContent className='bg-[#EEF2F7] mr-2'>
             {calendarTypes.map(item => (
               <Link key={item.label} to={item.path}>
-                <DropdownMenuItem
-                  className='w-[200px]'
-                  onClick={() => {
-                    setCalendarType(item);
-                  }}
-                >
-                  {item.label}
-                </DropdownMenuItem>
+                <DropdownMenuItem className='w-[200px] cursor-pointer'>{item.label}</DropdownMenuItem>
               </Link>
             ))}
           </DropdownMenuContent>

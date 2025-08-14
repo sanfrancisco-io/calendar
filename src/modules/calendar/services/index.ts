@@ -1,37 +1,57 @@
+import { appRoutes } from '@/config/router/appRoutes.ts';
+
 export const getDaysInMonth = (year: number, month: number) => {
   return new Date(year, month, 0).getDate();
 };
 
 export const monthFormatter = (date: Date, opt: Intl.DateTimeFormatOptions = { month: 'short' }) => {
-  const format = new Intl.DateTimeFormat('ru-RU', opt);
+  const f = new Intl.DateTimeFormat('ru-RU', opt);
 
-  return `${date.getDate()} ${format.format(date)}`;
+  const formatted = f.format(date);
+
+  return {
+    formatted,
+    date
+  };
 };
 
-export const getControllerType = (path: string) =>
-  ({
-    '/year': {
-      nextLabel: 'Следующий год',
-      prevLabel: 'Предыдущий год',
-      config: {
-        year: 'numeric',
-      },
-    },
-    '/month': {
-      nextLabel: 'Следующий месяц',
-      prevLabel: 'Предыдущий месяц',
-      config: {
-        month: 'long',
-        year: 'numeric',
-      },
-    },
-  })[path] ?? {
-    nextLabel: 'Следующий',
-    prevLabel: 'Предыдущий',
+export const getControllerType = () => ({
+  [appRoutes.year]: {
+    nextBtnLabel: 'Следующий год',
+    prevBtnLabel: 'Предыдущий год',
+    currentCalendarType: 'Год',
     config: {
-      year: 'numeric',
-    },
-  };
+      year: 'numeric'
+    }
+  },
+  [appRoutes.month]: {
+    nextBtnLabel: 'Следующий месяц',
+    prevBtnLabel: 'Предыдущий месяц',
+    currentCalendarType: 'Месяц',
+    config: {
+      month: 'long',
+      year: 'numeric'
+    }
+  },
+  [appRoutes.week]: {
+    nextBtnLabel: 'Следующая неделя',
+    prevBtnLabel: 'Предыдущая неделя',
+    currentCalendarType: 'Неделя',
+    config: {
+      month: 'long',
+      year: 'numeric'
+    }
+  },
+  [appRoutes.day]: {
+    nextBtnLabel: 'Следующий день',
+    prevBtnLabel: 'Предыдущий день',
+    currentCalendarType: 'День',
+    config: {
+      month: 'long',
+      year: 'numeric'
+    }
+  }
+});
 
 const TOTAL_FIXED_WEEKS = 42;
 
@@ -61,7 +81,7 @@ export const getDates = (date?: Date, fixedWeeks: boolean = false) => {
     {
       length: fixedWeeks
         ? TOTAL_FIXED_WEEKS - (prevMonthFillerDates.length + currentMonthDates.length)
-        : nextMonthFillerCount,
+        : nextMonthFillerCount
     },
     (_, index) => {
       return new Date(selectedYear, selectedMonthIndex + 1, index + 1);
@@ -71,6 +91,6 @@ export const getDates = (date?: Date, fixedWeeks: boolean = false) => {
   return {
     dates: [...prevMonthFillerDates, ...currentMonthDates, ...nextMonthFillerDates],
     prevMonthFillerDatesLen: prevMonthFillerDates.length,
-    currentMonthDatesLen: currentMonthDates.length,
+    currentMonthDatesLen: currentMonthDates.length
   };
 };

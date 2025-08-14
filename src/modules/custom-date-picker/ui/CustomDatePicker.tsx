@@ -14,7 +14,7 @@ export const CustomDatePicker = ({ onDateClick, date }: ICustomDatePickerProps) 
 
   const { dates } = getDates(selectedDate, fixedWeeks);
 
-  const label = monthFormatter(selectedDate, { month: 'long' }).substring(2);
+  const label = monthFormatter(selectedDate, { month: 'long' }).formatted.substring(2);
 
   return (
     <div className='text-[11px] w-max'>
@@ -34,7 +34,7 @@ export const CustomDatePicker = ({ onDateClick, date }: ICustomDatePickerProps) 
           <div key={item.getTime()}>
             <button
               className={cn('hover:bg-gray-300 rounded-full w-[25px] h-[25px] focus:bg-[#C2E7FF]', {
-                'bg-sky-600 text-white': item.getTime() === CURRENT_DATE,
+                'bg-sky-600 text-white': item.getTime() === CURRENT_DATE
               })}
               onClick={() => onDateClick(item)}
             >

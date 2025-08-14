@@ -20,7 +20,7 @@ export const Calendar = () => {
       <div
         className='grid rounded-3xl border-[#DDE3EA] border overflow-hidden grid-cols-7 h-full'
         style={{
-          gridTemplateRows: `repeat(${Math.ceil((prevMonthFillerDatesLen + currentMonthDatesLen) / 7)}, minmax(0, 1fr))`,
+          gridTemplateRows: `repeat(${Math.ceil((prevMonthFillerDatesLen + currentMonthDatesLen) / 7)}, minmax(0, 1fr))`
         }}
       >
         {dates.map(item => (
@@ -31,10 +31,10 @@ export const Calendar = () => {
             <span
               className={cn('text-[12px] mt-2', {
                 'bg-sky-600 rounded-full h-[24px] w-[24px] flex justify-center items-center text-white':
-                  item.getTime() === CURRENT_DATE,
+                  item.getTime() === CURRENT_DATE
               })}
             >
-              {item.getDate() === FIRST_DAY_OF_MONTH ? monthFormatter(item) : item.getDate()}
+              {item.getDate() === FIRST_DAY_OF_MONTH ? monthFormatter(item).formatted : item.getDate()}
             </span>
           </div>
         ))}

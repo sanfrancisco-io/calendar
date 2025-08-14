@@ -8,17 +8,16 @@ export const CalendarYearPage = () => {
 
   const dates = useMemo(() => Array.from({ length: 12 }, (_, idx) => new Date(currentYear, idx, 1)), [currentYear]);
 
+  const handleDate = (date: Date) => {
+    console.log(date);
+  };
+
   return (
     <div className='h-full rounded-3xl bg-white border-[#DDE3EA] border overflow-hidden pl-10 pt-10'>
       <div className='grid grid-cols-4 grid-rows-3 gap-y-10 max-w-max gap-x-20'>
         {dates.map(item => (
           <div key={item.getTime()}>
-            <CustomDatePicker
-              date={item}
-              onDateClick={(date: Date) => {
-                console.log(date);
-              }}
-            />
+            <CustomDatePicker date={item} onDateClick={handleDate} />
           </div>
         ))}
       </div>

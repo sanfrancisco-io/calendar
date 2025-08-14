@@ -6,7 +6,6 @@
   "singleQuote": true,
   "quoteProps": "as-needed",
   "jsxSingleQuote": true,
-  "trailingComma": "es5",
   "bracketSpacing": true,
   "bracketSameLine": false,
   "arrowParens": "avoid",
@@ -16,5 +15,6 @@
   "plugins": ["@trivago/prettier-plugin-sort-imports"],
   "importOrder": ["^react$", "^react-(.*)$", "^next/(.*)$", "<THIRD_PARTY_MODULES>", "^@/(.*)$", "^[./]"],
   "importOrderSortSpecifiers": true,
-  "importOrderCaseInsensitive": true
+  "importOrderCaseInsensitive": true,
+  "trailingComma": "none"
 }
